@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240">
+  <!-- Roof — left half dark, right half red -->
+  <path d="M120 18 L120 60 L42 96 L24 86 Z" fill="#1A1A1A"/>
+  <path d="M120 18 L120 60 L198 96 L216 86 Z" fill="#C8202E"/>
+  <!-- Roof underside / eaves -->
+  <rect x="38" y="92" width="82" height="16" fill="#1A1A1A"/>
+  <rect x="120" y="92" width="82" height="16" fill="#C8202E"/>
+  <!-- Window -->
+  <rect x="106" y="56" width="9" height="9" fill="#1A1A1A"/>
+  <rect x="118" y="56" width="9" height="9" fill="#1A1A1A"/>
+  <rect x="106" y="68" width="9" height="9" fill="#1A1A1A"/>
+  <rect x="118" y="68" width="9" height="9" fill="#1A1A1A"/>
+  <!-- T (dark left) -->
+  <rect x="62" y="108" width="36" height="100" fill="#1A1A1A"/>
+  <!-- H (red right) -->
+  <rect x="120" y="108" width="34" height="100" fill="#C8202E"/>
+  <rect x="170" y="108" width="34" height="100" fill="#C8202E"/>
+  <rect x="120" y="144" width="84" height="22" fill="#C8202E"/>
+  <!-- Screw -->
+  <ellipse cx="80" cy="138" rx="14" ry="6" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2"/>
+  <line x1="68" y1="138" x2="92" y2="138" stroke="#1A1A1A" stroke-width="2" stroke-linecap="round"/>
+  <path d="M70 143 L90 143 L88 153 L72 153 L88 163 L72 163 L88 173 L72 173 L88 183 L72 183 L80 196 Z" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2" stroke-linejoin="round"/>
+</svg>
