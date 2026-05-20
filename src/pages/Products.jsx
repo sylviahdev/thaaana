@@ -21,6 +21,7 @@ function Products() {
   const [selectedRange, setSelectedRange] = useState(null);
   const [sort, setSort] = useState("featured");
   const [view, setView] = useState("grid");
+  const [filtersOpen, setFiltersOpen] = useState(false);
 
   // Try API, fall back to local demo data.
   useEffect(() => {
@@ -81,24 +82,25 @@ function Products() {
     <Layout>
       {/* Page header */}
       <section className="bg-slate-900 text-white">
-        <div className="container-pro py-14 lg:py-16">
+        <div className="container-pro py-10 sm:py-14 lg:py-16">
           <nav className="text-xs text-slate-400">
             Home <span className="mx-1.5">/</span>{" "}
             <span className="text-slate-200">Products</span>
           </nav>
-          <h1 className="mt-3 font-display text-3xl sm:text-4xl font-extrabold">
+          <h1 className="mt-3 font-display text-2xl sm:text-4xl font-extrabold">
             Building Materials & Hardware
           </h1>
-          <p className="mt-3 max-w-2xl text-slate-300">
+          <p className="mt-3 max-w-2xl text-sm sm:text-base text-slate-300">
             Browse our full catalogue of construction materials. Filter by category or
             price, and request a quotation in one click.
           </p>
         </div>
       </section>
 
-      <section className="container-pro py-10 lg:py-14">
+      <section className="container-pro py-8 sm:py-10 lg:py-14">
         <div className="grid lg:grid-cols-12 gap-8">
-          <div className="lg:col-span-3">
+          {/* Desktop sidebar */}
+          <div className="hidden lg:block lg:col-span-3">
             <SidebarFilters
               search={search}
               onSearch={setSearch}
@@ -110,9 +112,48 @@ function Products() {
             />
           </div>
 
+          {/* Mobile filter drawer */}
+          {filtersOpen && (
+            <div className="lg:hidden fixed inset-0 z-50 flex">
+              <div
+                className="absolute inset-0 bg-slate-900/50 backdrop-blur-sm"
+                onClick={() => setFiltersOpen(false)}
+                aria-hidden
+              />
+              <div className="relative ml-auto h-full w-full max-w-sm bg-slate-50 shadow-2xl overflow-y-auto">
+                <div className="sticky top-0 z-10 flex items-center justify-between px-4 py-3 bg-white border-b border-slate-200">
+                  <div className="font-display font-bold text-slate-900">Filters</div>
+                  <button
+                    aria-label="Close filters"
+                    onClick={() => setFiltersOpen(false)}
+                    className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-700"
+                  >
+                    <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5">
+                      <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                    </svg>
+                  </button>
+                </div>
+                <div className="p-4">
+                  <SidebarFilters
+                    search={search}
+                    onSearch={setSearch}
+                    selectedCategory={selectedCategory}
+                    onCategory={(c) => {
+                      setSelectedCategory(c);
+                      setFiltersOpen(false);
+                    }}
+                    selectedRange={selectedRange}
+                    onRange={setSelectedRange}
+                    onReset={resetFilters}
+                  />
+                </div>
+              </div>
+            </div>
+          )}
+
           <div className="lg:col-span-9">
             {/* Top bar */}
-            <div className="card p-4 sm:p-5 mb-6 flex flex-wrap items-center justify-between gap-4">
+            <div className="card p-4 sm:p-5 mb-5 sm:mb-6 flex flex-wrap items-center justify-between gap-3 sm:gap-4">
               <div>
                 <div className="font-display font-bold text-slate-900">
                   Available Materials
@@ -123,7 +164,22 @@ function Products() {
                 </div>
               </div>
 
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 flex-wrap">
+                <button
+                  type="button"
+                  onClick={() => setFiltersOpen(true)}
+                  className="lg:hidden inline-flex items-center gap-2 bg-slate-900 text-white text-xs font-semibold px-3 py-2 rounded-lg"
+                >
+                  <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4">
+                    <path d="M4 6h16M7 12h10M10 18h4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                  </svg>
+                  Filters
+                  {(selectedCategory !== "All" || selectedRange) && (
+                    <span className="ml-0.5 inline-flex h-4 min-w-4 px-1 items-center justify-center rounded-full bg-brand-400 text-slate-900 text-[10px] font-bold">
+                      {[selectedCategory !== "All", !!selectedRange].filter(Boolean).length}
+                    </span>
+                  )}
+                </button>
                 <div className="hidden sm:flex items-center bg-slate-100 rounded-lg p-1">
                   <button
                     onClick={() => setView("grid")}

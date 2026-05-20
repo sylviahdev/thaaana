@@ -21,31 +21,31 @@ function Hero() {
         </svg>
       </div>
 
-      <div className="relative container-pro grid lg:grid-cols-12 gap-10 items-center py-20 lg:py-28">
+      <div className="relative container-pro grid lg:grid-cols-12 gap-8 lg:gap-10 items-center py-12 sm:py-20 lg:py-28">
         <div className="lg:col-span-7">
-          <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/15 text-xs font-medium tracking-wide text-slate-200 backdrop-blur">
-            <span className="h-1.5 w-1.5 rounded-full bg-brand-300 animate-pulse" />
-            Trusted by 500+ contractors across Ekalakala, Machakos & all of Kenya
+          <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/15 text-[11px] sm:text-xs font-medium tracking-wide text-slate-200 backdrop-blur">
+            <span className="h-1.5 w-1.5 rounded-full bg-brand-300 animate-pulse shrink-0" />
+            Trusted by 500+ contractors across Kenya
           </span>
 
-          <h1 className="mt-5 font-display text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.05] tracking-tight">
-            Quality Building <br />
+          <h1 className="mt-5 font-display text-3xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.1] sm:leading-[1.05] tracking-tight">
+            Quality Building <br className="hidden sm:block" />
             Materials.{" "}
-            <span className="text-brand-300">Trade Prices.</span> <br />
+            <span className="text-brand-300">Trade Prices.</span> <br className="hidden sm:block" />
             Delivered Across Kenya.
           </h1>
 
-          <p className="mt-6 max-w-xl text-base sm:text-lg text-slate-300 leading-relaxed">
+          <p className="mt-5 sm:mt-6 max-w-xl text-sm sm:text-lg text-slate-300 leading-relaxed">
             From cement and steel to roofing, paint, and power tools, Thaana Hardware
             supplies contractors, developers, and homeowners with reliable building
             materials, sourced from leading Kenyan and international manufacturers.
           </p>
-          <p className="mt-4 max-w-xl text-base sm:text-lg font-semibold text-white leading-snug">
-            Delivered fast. Priced fairly. <span className="text-brand-300">Built for contractors who demand durability and reliable supply..</span>
+          <p className="mt-3 sm:mt-4 max-w-xl text-sm sm:text-lg font-semibold text-white leading-snug">
+            Delivered fast. Priced fairly. <span className="text-brand-300">Built for contractors who demand durability and reliable supply.</span>
           </p>
 
-          <div className="mt-8 flex flex-wrap items-center gap-3">
-            <Link to="/contact" className="btn-primary">
+          <div className="mt-7 sm:mt-8 flex flex-wrap items-center gap-3">
+            <Link to="/contact" className="btn-primary w-full sm:w-auto">
               Request a Quotation
               <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4">
                 <path
@@ -59,7 +59,7 @@ function Hero() {
             </Link>
             <Link
               to="/products"
-              className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/15 border border-white/15 text-white font-semibold px-5 py-3 rounded-xl transition"
+              className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/15 border border-white/15 text-white font-semibold px-5 py-3 rounded-xl transition w-full sm:w-auto"
             >
               Browse Products
             </Link>
@@ -76,17 +76,17 @@ function Hero() {
             </a>
           </div>
 
-          <dl className="mt-12 grid grid-cols-3 gap-6 max-w-md">
+          <dl className="mt-10 sm:mt-12 grid grid-cols-3 gap-3 sm:gap-6 max-w-md">
             {[
               { k: "12+", v: "Years in business" },
               { k: "500+", v: "Active contractors" },
               { k: "8", v: "Material categories" },
             ].map((s) => (
               <div key={s.v}>
-                <dt className="font-display text-2xl sm:text-3xl font-bold text-white">
+                <dt className="font-display text-xl sm:text-3xl font-bold text-white">
                   {s.k}
                 </dt>
-                <dd className="text-xs sm:text-sm text-slate-400 mt-1">{s.v}</dd>
+                <dd className="text-[11px] sm:text-sm text-slate-400 mt-1 leading-tight">{s.v}</dd>
               </div>
             ))}
           </dl>
@@ -96,7 +96,7 @@ function Hero() {
         <div className="lg:col-span-5 lg:justify-self-end w-full">
           <div className="relative">
             <div className="absolute -inset-4 bg-brand-400/20 blur-3xl rounded-3xl" />
-            <div className="relative bg-white text-slate-900 rounded-3xl shadow-card p-6 sm:p-7 border border-white/20">
+            <div className="relative bg-white text-slate-900 rounded-2xl sm:rounded-3xl shadow-card p-5 sm:p-7 border border-white/20">
               <div className="flex items-center justify-between">
                 <div>
                   <div className="text-xs uppercase tracking-wider text-slate-500">
@@ -156,10 +156,10 @@ function Hero() {
 
       {/* Bottom marquee of brand names */}
       <div className="relative border-t border-white/10 bg-slate-950/60 backdrop-blur">
-        <div className="container-pro py-4 flex flex-wrap items-center justify-between gap-4 text-xs uppercase tracking-[0.2em] text-slate-500">
+        <div className="container-pro py-4 flex flex-wrap items-center justify-center sm:justify-between gap-x-4 gap-y-2 text-[10px] sm:text-xs uppercase tracking-[0.18em] sm:tracking-[0.2em] text-slate-500">
           <span className="text-slate-400">Brands we stock</span>
           <span>Bamburi</span>
-          <span>Simba Cement</span>
+          <span>Simba</span>
           <span>Mabati Rolling Mills</span>
           <span>Crown Paints</span>
           <span>Sadolin</span>
