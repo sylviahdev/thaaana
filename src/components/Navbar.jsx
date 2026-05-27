@@ -73,10 +73,10 @@ function Navbar() {
 
       {/* ============ Main row: logo + search + CTAs ============ */}
       <div className="container-pro flex items-center gap-4 lg:gap-6 py-3 lg:py-4">
-        <Link to="/" className="group shrink-0 flex items-center">
+        <Link to="/" className="group shrink-0 flex items-center" aria-label="THAANA Hardware home">
           <Logo
             variant="onDark"
-            markClassName="h-10 w-10 sm:h-12 sm:w-12 transition group-hover:scale-105"
+            markClassName="h-16 w-16 sm:h-20 sm:w-20 lg:h-24 lg:w-24 transition group-hover:scale-105"
           />
         </Link>
 

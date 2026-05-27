@@ -64,7 +64,7 @@ function Footer() {
         <div className="grid lg:grid-cols-12 gap-10">
           {/* Brand */}
           <div className="lg:col-span-4">
-            <Logo variant="onDark" markClassName="h-12 w-12" showTagline />
+            <Logo variant="onDark" markClassName="h-28 w-28" showTagline />
             <p className="mt-6 text-sm leading-relaxed text-slate-400 max-w-sm">
               Kenya's contractor-first builders' merchant. Supplying genuine
               construction materials and hardware across 14 counties since 2013.
