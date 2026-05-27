@@ -35,7 +35,7 @@ function CTASection() {
                 </h2>
                 <p className="mt-5 max-w-xl text-slate-300 leading-relaxed">
                   Send us your BOQ or material list. We'll come back with availability,
-                  lead times and a tailored quotation — all on a single sheet.
+                  lead times and a tailored quotation ,all on a single sheet.
                 </p>
 
                 <div className="mt-7 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-slate-400">
