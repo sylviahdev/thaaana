@@ -1,47 +1,49 @@
 import { useEffect, useMemo, useState } from "react";
-import { useSearchParams } from "react-router-dom";
-import axios from "axios";
+import { Link, useSearchParams } from "react-router-dom";
+import {
+  FileText,
+  MessageCircle,
+  CheckCircle2,
+  AlertCircle,
+  Clock4,
+  Layers,
+} from "lucide-react";
 import Layout from "../components/Layout";
 import ProductCard from "../components/ProductCard";
 import ProductImage from "../components/ProductImage";
 import SidebarFilters from "../components/SidebarFilters";
-import productsData from "../data/products";
+import { Reveal } from "../components/motion";
+import products from "../data/products";
+import { whatsappLink, site } from "../data/site";
 
-const API_URL = "http://127.0.0.1:5000/products";
+const STATUS = {
+  "In Stock": {
+    label: "In Stock",
+    Icon: CheckCircle2,
+    pill: "bg-emerald-50 text-emerald-700 ring-emerald-100",
+  },
+  "Limited Stock": {
+    label: "Limited",
+    Icon: AlertCircle,
+    pill: "bg-amber-50 text-amber-700 ring-amber-100",
+  },
+  "On Order": {
+    label: "On Order",
+    Icon: Clock4,
+    pill: "bg-sky-50 text-sky-700 ring-sky-100",
+  },
+};
 
 function Products() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [products, setProducts] = useState(productsData);
-  const [loading, setLoading] = useState(false);
 
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(
     searchParams.get("category") || "All"
   );
-  const [selectedRange, setSelectedRange] = useState(null);
   const [sort, setSort] = useState("featured");
   const [view, setView] = useState("grid");
   const [filtersOpen, setFiltersOpen] = useState(false);
-
-  // Try API, fall back to local demo data.
-  useEffect(() => {
-    let cancelled = false;
-    setLoading(true);
-    axios
-      .get(API_URL, { timeout: 2500 })
-      .then((res) => {
-        if (!cancelled && Array.isArray(res.data) && res.data.length) {
-          setProducts(res.data);
-        }
-      })
-      .catch(() => {
-        // Silently fall back to demo data — keeps the UI live without a backend.
-      })
-      .finally(() => !cancelled && setLoading(false));
-    return () => {
-      cancelled = true;
-    };
-  }, []);
 
   useEffect(() => {
     const params = new URLSearchParams(searchParams);
@@ -58,42 +60,68 @@ function Products() {
         p.description?.toLowerCase().includes(search.toLowerCase());
       const matchesCategory =
         selectedCategory === "All" || p.category === selectedCategory;
-      const matchesRange =
-        !selectedRange ||
-        (Number(p.price) >= selectedRange.min &&
-          Number(p.price) <= selectedRange.max);
-      return matchesSearch && matchesCategory && matchesRange;
+      return matchesSearch && matchesCategory;
     });
 
-    if (sort === "price-asc") list = [...list].sort((a, b) => a.price - b.price);
-    if (sort === "price-desc") list = [...list].sort((a, b) => b.price - a.price);
     if (sort === "name") list = [...list].sort((a, b) => a.name.localeCompare(b.name));
+    if (sort === "category")
+      list = [...list].sort((a, b) => a.category.localeCompare(b.category));
     return list;
-  }, [products, search, selectedCategory, selectedRange, sort]);
+  }, [search, selectedCategory, sort]);
 
   const resetFilters = () => {
     setSearch("");
     setSelectedCategory("All");
-    setSelectedRange(null);
     setSort("featured");
   };
 
   return (
     <Layout>
       {/* Page header */}
-      <section className="bg-slate-900 text-white">
-        <div className="container-pro py-10 sm:py-14 lg:py-16">
+      <section className="relative bg-charcoal-950 text-white overflow-hidden">
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top_right,rgba(245,166,35,0.15),transparent_60%)]" />
+        <div className="absolute -bottom-32 -right-32 h-80 w-80 rounded-full bg-brand-500/15 blur-3xl -z-10" />
+        <svg className="absolute inset-0 h-full w-full opacity-[0.05] -z-10" preserveAspectRatio="none" aria-hidden>
+          <defs>
+            <pattern id="productsHeroGrid" width="56" height="56" patternUnits="userSpaceOnUse">
+              <path d="M56 0H0V56" fill="none" stroke="white" strokeWidth="1" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#productsHeroGrid)" />
+        </svg>
+
+        <div className="container-pro py-14 sm:py-16 lg:py-20">
           <nav className="text-xs text-slate-400">
-            Home <span className="mx-1.5">/</span>{" "}
+            <Link to="/" className="hover:text-brand-300 transition">Home</Link>
+            <span className="mx-1.5">/</span>
             <span className="text-slate-200">Products</span>
           </nav>
-          <h1 className="mt-3 font-display text-2xl sm:text-4xl font-extrabold">
-            Building Materials & Hardware
-          </h1>
-          <p className="mt-3 max-w-2xl text-sm sm:text-base text-slate-300">
-            Browse our full catalogue of construction materials. Filter by category or
-            price, and request a quotation in one click.
-          </p>
+          <Reveal>
+            <div className="mt-5 eyebrow">Full Catalogue</div>
+            <h1 className="mt-3 font-display text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.05] max-w-3xl">
+              Building Materials &{" "}
+              <span className="text-gradient-orange">Hardware.</span>
+            </h1>
+            <p className="mt-5 max-w-2xl text-slate-300 text-base sm:text-lg leading-relaxed">
+              Browse our full catalogue of construction materials. Filter by
+              category and request a quotation in one click — we respond within
+              4 working hours.
+            </p>
+            <div className="mt-7 flex flex-wrap items-center gap-x-6 gap-y-3 text-xs text-slate-400">
+              <span className="inline-flex items-center gap-1.5">
+                <Layers className="h-3.5 w-3.5 text-brand-400" />
+                1,200+ SKUs in stock
+              </span>
+              <span className="inline-flex items-center gap-1.5">
+                <CheckCircle2 className="h-3.5 w-3.5 text-brand-400" />
+                KEBS-certified manufacturers
+              </span>
+              <span className="inline-flex items-center gap-1.5">
+                <Clock4 className="h-3.5 w-3.5 text-brand-400" />
+                4-hour quotation SLA
+              </span>
+            </div>
+          </Reveal>
         </div>
       </section>
 
@@ -106,8 +134,6 @@ function Products() {
               onSearch={setSearch}
               selectedCategory={selectedCategory}
               onCategory={setSelectedCategory}
-              selectedRange={selectedRange}
-              onRange={setSelectedRange}
               onReset={resetFilters}
             />
           </div>
@@ -142,8 +168,6 @@ function Products() {
                       setSelectedCategory(c);
                       setFiltersOpen(false);
                     }}
-                    selectedRange={selectedRange}
-                    onRange={setSelectedRange}
                     onReset={resetFilters}
                   />
                 </div>
@@ -159,7 +183,7 @@ function Products() {
                   Available Materials
                 </div>
                 <div className="text-sm text-slate-500 mt-0.5">
-                  {loading ? "Loading…" : `${filtered.length} products`}
+                  {filtered.length} products
                   {selectedCategory !== "All" && ` in ${selectedCategory}`}
                 </div>
               </div>
@@ -168,15 +192,15 @@ function Products() {
                 <button
                   type="button"
                   onClick={() => setFiltersOpen(true)}
-                  className="lg:hidden inline-flex items-center gap-2 bg-slate-900 text-white text-xs font-semibold px-3 py-2 rounded-lg"
+                  className="lg:hidden inline-flex items-center gap-2 bg-charcoal-950 text-white text-xs font-semibold px-3 py-2 rounded-lg"
                 >
                   <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4">
                     <path d="M4 6h16M7 12h10M10 18h4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
                   </svg>
                   Filters
-                  {(selectedCategory !== "All" || selectedRange) && (
+                  {selectedCategory !== "All" && (
                     <span className="ml-0.5 inline-flex h-4 min-w-4 px-1 items-center justify-center rounded-full bg-brand-400 text-slate-900 text-[10px] font-bold">
-                      {[selectedCategory !== "All", !!selectedRange].filter(Boolean).length}
+                      1
                     </span>
                   )}
                 </button>
@@ -207,8 +231,7 @@ function Products() {
                 >
                   <option value="featured">Sort: Featured</option>
                   <option value="name">Name (A-Z)</option>
-                  <option value="price-asc">Price (low → high)</option>
-                  <option value="price-desc">Price (high → low)</option>
+                  <option value="category">Category</option>
                 </select>
               </div>
             </div>
@@ -233,51 +256,83 @@ function Products() {
               </div>
             ) : (
               <div className="flex flex-col gap-4">
-                {filtered.map((p) => (
-                  <div
-                    key={p.id}
-                    className="card overflow-hidden flex flex-col sm:flex-row hover:shadow-card transition"
-                  >
-                    <div className="sm:w-56 h-44 sm:h-auto shrink-0">
-                      <ProductImage product={p} />
-                    </div>
-                    <div className="p-5 flex-1 flex flex-col">
-                      <div className="flex items-start justify-between gap-3">
-                        <div>
-                          <span className="chip bg-slate-100 text-slate-700">
-                            {p.category}
+                {filtered.map((p) => {
+                  const status = STATUS[p.availability] || STATUS["In Stock"];
+                  const quoteText = `Hello THAANA, I would like a quotation for "${p.name}". Please share availability, lead time and delivery options.`;
+                  return (
+                    <article
+                      key={p.id}
+                      className="group bg-white rounded-2xl border border-slate-200/70 shadow-soft hover:shadow-card hover:-translate-y-0.5 transition-all duration-300 overflow-hidden flex flex-col sm:flex-row"
+                    >
+                      <div className="relative sm:w-64 lg:w-72 h-48 sm:h-auto shrink-0 bg-slate-50 overflow-hidden">
+                        <div className="absolute inset-0 group-hover:scale-105 transition-transform duration-700 ease-out">
+                          <ProductImage product={p} />
+                        </div>
+                        {p.badge && (
+                          <span className="absolute top-3 left-3 inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-charcoal-950 text-brand-300 text-[10px] font-bold uppercase tracking-wider shadow-soft">
+                            {p.badge}
                           </span>
-                          <h3 className="mt-2 font-display font-bold text-lg text-slate-900">
-                            {p.name}
-                          </h3>
-                          <p className="text-sm text-slate-600 mt-1">
-                            {p.description}
-                          </p>
-                        </div>
-                        <div className="text-right shrink-0">
-                          <div className="font-display text-xl font-extrabold">
-                            KES {Number(p.price).toLocaleString()}
+                        )}
+                      </div>
+
+                      <div className="p-5 lg:p-6 flex-1 flex flex-col">
+                        <div className="flex items-start justify-between gap-3 flex-wrap">
+                          <div className="min-w-0">
+                            <span className="inline-flex items-center px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-bold uppercase tracking-wider">
+                              {p.category}
+                            </span>
+                            <h3 className="mt-2 font-display font-bold text-lg lg:text-xl text-charcoal-900 leading-snug">
+                              {p.name}
+                            </h3>
+                            {p.description && (
+                              <p className="text-sm text-charcoal-500 mt-1.5 leading-relaxed line-clamp-2">
+                                {p.description}
+                              </p>
+                            )}
                           </div>
-                          <div className="text-[11px] uppercase tracking-wider text-slate-500">
-                            {p.unit}
+                          <span
+                            className={`chip ${status.pill} ring-1 font-bold uppercase tracking-wide text-[10px] shrink-0`}
+                          >
+                            <status.Icon className="h-3 w-3" />
+                            {status.label}
+                          </span>
+                        </div>
+
+                        <div className="mt-auto pt-4 flex flex-wrap items-end justify-between gap-3 border-t border-slate-100">
+                          <div className="pt-3">
+                            <div className="text-[10px] uppercase tracking-[0.16em] font-bold text-slate-500">
+                              Pricing
+                            </div>
+                            <div className="font-display font-extrabold text-brand-600 text-base">
+                              Call for Pricing
+                            </div>
+                            {p.unit && (
+                              <div className="text-xs text-slate-500 mt-0.5">{p.unit}</div>
+                            )}
+                          </div>
+                          <div className="flex items-center gap-2 pt-3">
+                            <a
+                              href={`tel:${site.phone}`}
+                              className="inline-flex items-center justify-center gap-2 bg-charcoal-950 hover:bg-charcoal-800 text-white font-bold text-[12px] uppercase tracking-wider px-4 py-2.5 rounded-xl transition"
+                            >
+                              <FileText className="h-4 w-4" />
+                              Request Quote
+                            </a>
+                            <a
+                              href={whatsappLink(quoteText)}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="inline-flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#1ebe5d] text-white font-bold text-[12px] uppercase tracking-wider px-4 py-2.5 rounded-xl transition"
+                            >
+                              <MessageCircle className="h-4 w-4" />
+                              WhatsApp
+                            </a>
                           </div>
                         </div>
                       </div>
-                      <div className="mt-auto pt-4 flex gap-2">
-                        <a
-                          href={`https://wa.me/254700000000?text=${encodeURIComponent(
-                            `Hello Thaana, please quote me for "${p.name}".`
-                          )}`}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="btn-primary text-sm !py-2.5"
-                        >
-                          Request Quote
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                ))}
+                    </article>
+                  );
+                })}
               </div>
             )}
           </div>

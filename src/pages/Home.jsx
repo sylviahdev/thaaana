@@ -1,48 +1,66 @@
-import { Link } from "react-router-dom";
+import { useEffect } from "react";
 import Layout from "../components/Layout";
-import Hero from "../components/Hero";
-import TrustSection from "../components/TrustSection";
+import HeroSlider from "../components/HeroSlider";
+import BrandStrip from "../components/BrandStrip";
+import PhotoBanner from "../components/PhotoBanner";
 import FeaturedCategories from "../components/FeaturedCategories";
+import ProductGridTabs from "../components/ProductGridTabs";
+import CategoryShowcase from "../components/CategoryShowcase";
+import BulkOrders from "../components/BulkOrders";
+import DeliveryCoverage from "../components/DeliveryCoverage";
 import WhyChooseUs from "../components/WhyChooseUs";
+import Testimonials from "../components/Testimonials";
+import RequestCallback from "../components/RequestCallback";
 import CTASection from "../components/CTASection";
-import ProductCard from "../components/ProductCard";
-import productsData from "../data/products";
 
 function Home() {
-  const featured = productsData.slice(0, 4);
+  useEffect(() => {
+    document.title =
+      "Building Materials Kenya · Hardware Store Nairobi | THAANA Hardware Limited";
+    const meta = document.querySelector('meta[name="description"]');
+    if (meta)
+      meta.setAttribute(
+        "content",
+        "THAANA Hardware Limited — Trusted construction materials & hardware supplier in Kenya. Cement, steel, roofing, plumbing, paints, water tanks & tools. Quotations in 4 hours, delivery nationwide."
+      );
+  }, []);
 
   return (
     <Layout>
-      <Hero />
-      <TrustSection />
+      {/* 1 · Hero banner slider — 3 cinematic auto-rotating slides */}
+      <HeroSlider />
 
-      {/* Featured products preview */}
-      <section className="bg-white">
-        <div className="container-pro py-16 lg:py-20">
-          <div className="flex flex-wrap items-end justify-between gap-4 mb-10">
-            <div className="max-w-xl">
-              <div className="text-xs uppercase tracking-[0.18em] text-brand-600 font-semibold">
-                Best Sellers
-              </div>
-              <h2 className="mt-2 font-display text-2xl sm:text-3xl font-bold text-slate-900">
-                Top materials our contractors order weekly.
-              </h2>
-            </div>
-            <Link to="/products" className="btn-outline text-sm">
-              View all products →
-            </Link>
-          </div>
+      {/* 2 · Supplier / brand trust strip */}
+      <BrandStrip />
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {featured.map((p) => (
-              <ProductCard key={p.id} product={p} />
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* 3 · Photo-banner slider — category storytelling */}
+      <PhotoBanner />
 
+      {/* 4 · "Building & Hardware" — NEW / FEATURED / TOP SELLERS tabbed grid */}
+      <ProductGridTabs />
+
+      {/* 4 · Premium category tiles — visual browse pattern */}
       <FeaturedCategories />
+
+      {/* 5 · Shop by category — tabbed product carousels per category */}
+      <CategoryShowcase />
+
+      {/* 6 · Contractor / bulk orders */}
+      <BulkOrders />
+
+      {/* 7 · Delivery coverage map */}
+      <DeliveryCoverage />
+
+      {/* 8 · Why choose us */}
       <WhyChooseUs />
+
+      {/* 9 · Testimonials carousel */}
+      <Testimonials />
+
+      {/* 10 · Callback form */}
+      <RequestCallback />
+
+      {/* 11 · Final CTA */}
       <CTASection />
     </Layout>
   );

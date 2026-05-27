@@ -1,7 +1,8 @@
 // Central place to update contact info / branding across the site.
 
 export const site = {
-  name: "THAANA HARDWARE",
+  name: "THAANA HARDWARE LIMITED",
+  shortName: "THAANA HARDWARE",
   tagline: "Quality Building Materials Across Kenya",
   whatsappNumber: "254703840750", // wa.me uses no '+'
   phone: "+254 703 840 750",
@@ -30,10 +31,3 @@ export const categories = [
 
 export const whatsappLink = (text) =>
   `https://wa.me/${site.whatsappNumber}${text ? `?text=${encodeURIComponent(text)}` : ""}`;
-
-export const formatKES = (value) =>
-  new Intl.NumberFormat("en-KE", {
-    style: "currency",
-    currency: "KES",
-    maximumFractionDigits: 0,
-  }).format(value || 0);

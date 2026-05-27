@@ -1,181 +1,269 @@
 import { Link } from "react-router-dom";
+import {
+  ArrowUpRight,
+  Hammer,
+  Layers,
+  Wrench,
+  Droplets,
+  Plug,
+  Paintbrush,
+  Container,
+  HardHat,
+} from "lucide-react";
+import { Reveal, Stagger, StaggerItem } from "./motion";
 
-// Each tile uses a gradient + on-topic glyph instead of a photo — keeps the
-// home page on-brand and prevents any unrelated stock imagery slipping in.
+// Cinematic premium category tiles using CSS gradients + SVG patterns
+// (acts as stand-in for construction imagery without external assets).
 const cats = [
   {
     name: "Cement & Concrete",
     desc: "Bamburi · Simba · Savannah",
     slug: "Cement & Concrete",
-    tone: "from-slate-700 to-slate-900",
-    glyph: (
-      <g fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M14 10h12l2 4v18a2 2 0 0 1-2 2H14a2 2 0 0 1-2-2V14l2-4Z" />
-        <path d="M14 18h12M18 14v4M22 14v4M16 26h8M16 30h4" />
-      </g>
-    ),
-  },
-  {
-    name: "Steel & Reinforcement",
-    desc: "Y-bars · BRC · hollow sections",
-    slug: "Steel & Reinforcement",
-    tone: "from-brand-500 to-brand-700",
-    glyph: (
-      <g fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M6 18h28M6 22h28" />
-        <path d="M10 18v4M14 18v4M18 18v4M22 18v4M26 18v4M30 18v4" />
-        <circle cx="4" cy="20" r="2" /><circle cx="36" cy="20" r="2" />
-      </g>
-    ),
+    Icon: Layers,
+    tone: "from-charcoal-700 to-charcoal-950",
+    accent: "rgba(245,166,35,0.35)",
+    pattern: "blocks",
   },
   {
     name: "Roofing Materials",
-    desc: "Mabati · ridge caps · gutters",
+    desc: "Mabati · Decra · gutters · ridge caps",
     slug: "Roofing Materials",
-    tone: "from-emerald-700 to-emerald-900",
-    glyph: (
-      <g fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M4 28V18l8-8h16l8 8v10" />
-        <path d="M4 28h36M8 18l4 10M16 18l4 10M24 18l4 10M32 18l4 10" />
-      </g>
-    ),
+    Icon: HardHat,
+    tone: "from-brick-700 to-charcoal-900",
+    accent: "rgba(232,95,117,0.4)",
+    pattern: "roof",
   },
   {
-    name: "Plumbing Materials",
+    name: "Steel & Metal",
+    desc: "Y-bars · BRC mesh · hollow sections",
+    slug: "Steel & Reinforcement",
+    Icon: Wrench,
+    tone: "from-brand-700 to-charcoal-900",
+    accent: "rgba(245,166,35,0.4)",
+    pattern: "rebar",
+  },
+  {
+    name: "Plumbing",
     desc: "Pipes · fittings · fixtures",
     slug: "Plumbing Materials",
-    tone: "from-sky-700 to-sky-900",
-    glyph: (
-      <g fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M6 14h12v6H6zM30 20v12h-6V20" />
-        <path d="M18 14v6h12v-6M14 14V8h8v6" />
-      </g>
-    ),
+    Icon: Droplets,
+    tone: "from-sky-800 to-charcoal-900",
+    accent: "rgba(56,189,248,0.35)",
+    pattern: "pipes",
   },
   {
-    name: "Paint & Finishing",
-    desc: "Crown · Sadolin · Rollers",
+    name: "Electricals",
+    desc: "Cables · MCBs · solar kits",
+    slug: "Electrical Supplies",
+    Icon: Plug,
+    tone: "from-amber-700 to-charcoal-900",
+    accent: "rgba(252,211,77,0.4)",
+    pattern: "circuit",
+  },
+  {
+    name: "Paints",
+    desc: "Crown · Sadolin · finishes",
     slug: "Paint & Finishing",
-    tone: "from-violet-700 to-violet-900",
-    glyph: (
-      <g fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M10 14h20v18a4 4 0 0 1-4 4H14a4 4 0 0 1-4-4V14Z" />
-        <path d="M10 14a10 10 0 0 1 20 0M22 22v4" />
-      </g>
-    ),
+    Icon: Paintbrush,
+    tone: "from-violet-800 to-charcoal-900",
+    accent: "rgba(192,132,252,0.4)",
+    pattern: "stripes",
+  },
+  {
+    name: "Water Tanks",
+    desc: "Kentank · Roto · Techno-tank",
+    slug: "Water & Sanitation",
+    Icon: Container,
+    tone: "from-blue-800 to-charcoal-900",
+    accent: "rgba(59,130,246,0.4)",
+    pattern: "drops",
   },
   {
     name: "Tools & Equipment",
-    desc: "Drills · grinders · welders",
+    desc: "Bosch · welders · ladders",
     slug: "Tools & Equipment",
-    tone: "from-rose-700 to-rose-900",
-    glyph: (
-      <g fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M30 6a6 6 0 0 1-8 8L8 28l4 4 14-14a6 6 0 0 1 8-8L30 16l-4-4Z" />
-      </g>
-    ),
-  },
-  {
-    name: "Electrical & Solar",
-    desc: "Cables · MCBs · solar kits",
-    slug: "Electrical Supplies",
-    tone: "from-amber-600 to-amber-800",
-    glyph: (
-      <g fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M22 4 10 24h10l-2 16 14-22H22l4-14Z" />
-      </g>
-    ),
-  },
-  {
-    name: "Water & Sanitation",
-    desc: "Tanks · septic · meters",
-    slug: "Water & Sanitation",
-    tone: "from-blue-700 to-blue-900",
-    glyph: (
-      <g fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M20 4 C 26 14 32 22 32 28 a12 12 0 0 1-24 0 C 8 22 14 14 20 4 Z" />
-      </g>
-    ),
-  },
-  {
-    name: "Safety Equipment",
-    desc: "Helmets · gumboots · vests",
-    slug: "Safety Equipment",
-    tone: "from-yellow-600 to-yellow-800",
-    glyph: (
-      <g fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M6 28C6 18 12 12 20 12s14 6 14 16Z" />
-        <path d="M2 28h36M20 12V4" />
-      </g>
-    ),
+    Icon: Hammer,
+    tone: "from-rose-800 to-charcoal-900",
+    accent: "rgba(248,113,113,0.4)",
+    pattern: "tools",
   },
 ];
 
+function Pattern({ kind, color }) {
+  const id = `pat-${kind}`;
+  if (kind === "blocks")
+    return (
+      <svg className="absolute inset-0 h-full w-full opacity-30" aria-hidden>
+        <defs>
+          <pattern id={id} width="48" height="32" patternUnits="userSpaceOnUse">
+            <rect x="0" y="0" width="46" height="14" fill="none" stroke={color} strokeWidth="1" />
+            <rect x="24" y="16" width="46" height="14" fill="none" stroke={color} strokeWidth="1" />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill={`url(#${id})`} />
+      </svg>
+    );
+  if (kind === "rebar")
+    return (
+      <svg className="absolute inset-0 h-full w-full opacity-25" aria-hidden>
+        <defs>
+          <pattern id={id} width="20" height="20" patternUnits="userSpaceOnUse">
+            <line x1="0" y1="10" x2="20" y2="10" stroke={color} strokeWidth="2" />
+            <line x1="6" y1="2" x2="14" y2="18" stroke={color} strokeWidth="1.2" />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill={`url(#${id})`} />
+      </svg>
+    );
+  if (kind === "roof")
+    return (
+      <svg className="absolute inset-0 h-full w-full opacity-30" aria-hidden>
+        <defs>
+          <pattern id={id} width="32" height="16" patternUnits="userSpaceOnUse">
+            <path d="M0 16 L16 0 L32 16" fill="none" stroke={color} strokeWidth="1.2" />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill={`url(#${id})`} />
+      </svg>
+    );
+  if (kind === "pipes")
+    return (
+      <svg className="absolute inset-0 h-full w-full opacity-25" aria-hidden>
+        <defs>
+          <pattern id={id} width="40" height="40" patternUnits="userSpaceOnUse">
+            <circle cx="20" cy="20" r="12" fill="none" stroke={color} strokeWidth="1.5" />
+            <circle cx="20" cy="20" r="6" fill="none" stroke={color} strokeWidth="1" />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill={`url(#${id})`} />
+      </svg>
+    );
+  if (kind === "circuit")
+    return (
+      <svg className="absolute inset-0 h-full w-full opacity-25" aria-hidden>
+        <defs>
+          <pattern id={id} width="60" height="60" patternUnits="userSpaceOnUse">
+            <path d="M0 30 L20 30 L20 10 L40 10 L40 50 L60 50" fill="none" stroke={color} strokeWidth="1" />
+            <circle cx="20" cy="10" r="2" fill={color} />
+            <circle cx="40" cy="50" r="2" fill={color} />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill={`url(#${id})`} />
+      </svg>
+    );
+  if (kind === "stripes")
+    return (
+      <svg className="absolute inset-0 h-full w-full opacity-25" aria-hidden>
+        <defs>
+          <pattern id={id} width="14" height="14" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+            <line x1="0" y1="0" x2="0" y2="14" stroke={color} strokeWidth="2" />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill={`url(#${id})`} />
+      </svg>
+    );
+  if (kind === "drops")
+    return (
+      <svg className="absolute inset-0 h-full w-full opacity-30" aria-hidden>
+        <defs>
+          <pattern id={id} width="34" height="34" patternUnits="userSpaceOnUse">
+            <path d="M17 4 C 22 12 26 18 26 22 a9 9 0 0 1 -18 0 C 8 18 12 12 17 4 Z" fill="none" stroke={color} strokeWidth="1.2" />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill={`url(#${id})`} />
+      </svg>
+    );
+  if (kind === "tools")
+    return (
+      <svg className="absolute inset-0 h-full w-full opacity-25" aria-hidden>
+        <defs>
+          <pattern id={id} width="36" height="36" patternUnits="userSpaceOnUse">
+            <path d="M6 30 L22 14 M20 12 a4 4 0 1 1 6 6" fill="none" stroke={color} strokeWidth="1.4" />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill={`url(#${id})`} />
+      </svg>
+    );
+  return null;
+}
+
 function FeaturedCategories() {
   return (
-    <section className="bg-slate-50 border-y border-slate-100">
-      <div className="container-pro py-16 lg:py-24">
+    <section
+      id="categories"
+      className="bg-charcoal-950 text-white border-y border-white/5 scroll-mt-24"
+    >
+      <div className="absolute inset-x-0 bg-[radial-gradient(ellipse_at_top,rgba(245,166,35,0.08),transparent_60%)]" />
+      <div className="container-pro py-20 lg:py-28">
         <div className="flex flex-wrap items-end justify-between gap-4">
-          <div className="max-w-xl">
-            <div className="text-xs uppercase tracking-[0.18em] text-brand-600 font-semibold">
-              Shop by Category
-            </div>
-            <h2 className="mt-2 font-display text-2xl sm:text-3xl font-bold text-slate-900">
-              Everything you need, under one roof.
+          <Reveal className="max-w-xl">
+            <div className="eyebrow">Browse by Category</div>
+            <h2 className="mt-3 heading-xl-dark">
+              Every category your <span className="text-gradient-orange">site</span> needs.
             </h2>
-            <p className="mt-3 text-slate-600">
-              From foundations to finishes — explore over 90 building materials,
-              tools and fittings in stock now.
+            <p className="mt-4 text-slate-300/90">
+              Over 1,200 SKUs across eight construction categories — supplied directly
+              from KEBS-certified manufacturers and ready to dispatch.
             </p>
-          </div>
-          <Link to="/products" className="hidden sm:inline-flex btn-outline text-sm">
-            View all materials
-          </Link>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <Link
+              to="/products"
+              className="hidden sm:inline-flex items-center gap-2 text-sm font-semibold text-white border border-white/15 hover:border-brand-400 hover:text-brand-300 rounded-xl px-4 py-2.5 transition"
+            >
+              View all materials
+              <ArrowUpRight className="h-4 w-4" />
+            </Link>
+          </Reveal>
         </div>
 
-        <div className="mt-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-5">
+        <Stagger className="mt-12 grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
           {cats.map((c) => (
-            <Link
-              key={c.name}
-              to={`/products?category=${encodeURIComponent(c.slug)}`}
-              className={`group relative overflow-hidden rounded-2xl aspect-[5/4] sm:aspect-[4/3] shadow-soft hover:shadow-card transition bg-gradient-to-br ${c.tone} text-white`}
-            >
-              <svg className="absolute inset-0 h-full w-full opacity-15" preserveAspectRatio="none">
-                <defs>
-                  <pattern id={`p-${c.name.replace(/[^a-z]/gi, "")}`} width="28" height="28" patternUnits="userSpaceOnUse">
-                    <path d="M28 0H0V28" fill="none" stroke="white" strokeWidth="1" />
-                  </pattern>
-                </defs>
-                <rect width="100%" height="100%" fill={`url(#p-${c.name.replace(/[^a-z]/gi, "")})`} />
-              </svg>
-
-              <svg
-                viewBox="0 0 40 40"
-                className="absolute -right-6 -bottom-6 h-44 w-44 text-white/15 group-hover:text-white/25 transition"
+            <StaggerItem key={c.name}>
+              <Link
+                to={`/products?category=${encodeURIComponent(c.slug)}`}
+                className={`group relative block overflow-hidden rounded-2xl aspect-[4/5] sm:aspect-[4/5] shadow-soft hover:shadow-glow transition bg-gradient-to-br ${c.tone}`}
               >
-                {c.glyph}
-              </svg>
+                {/* Pattern fill */}
+                <div className="absolute inset-0 transition-transform duration-700 group-hover:scale-110">
+                  <Pattern kind={c.pattern} color="white" />
+                </div>
 
-              <div className="relative h-full flex flex-col justify-between p-5 sm:p-6">
-                <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-white/15 backdrop-blur">
-                  <svg viewBox="0 0 40 40" className="h-6 w-6 text-white">
-                    {c.glyph}
-                  </svg>
-                </span>
-                <div>
-                  <div className="font-display font-bold text-lg sm:text-xl">{c.name}</div>
-                  <div className="text-xs sm:text-sm text-white/80 mt-0.5">{c.desc}</div>
-                  <div className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-white/90">
-                    Explore range
-                    <svg viewBox="0 0 24 24" fill="none" className="h-3.5 w-3.5">
-                      <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
+                {/* Radial accent glow */}
+                <div
+                  className="absolute -right-10 -top-10 h-44 w-44 rounded-full blur-3xl transition-opacity duration-500 opacity-60 group-hover:opacity-100"
+                  style={{ background: c.accent }}
+                />
+
+                {/* Overlay gradient */}
+                <div className="absolute inset-0 bg-gradient-to-t from-charcoal-950/90 via-charcoal-950/30 to-transparent" />
+
+                {/* Shine sweep on hover */}
+                <div className="absolute inset-0 overflow-hidden opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="absolute -inset-x-full top-0 h-full w-1/3 bg-gradient-to-r from-transparent via-white/15 to-transparent transform -skew-x-12 group-hover:translate-x-[400%] transition-transform duration-1000" />
+                </div>
+
+                <div className="relative h-full flex flex-col justify-between p-5 sm:p-6">
+                  <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-white/15 backdrop-blur ring-1 ring-white/15 text-white group-hover:bg-brand-400 group-hover:text-charcoal-950 transition">
+                    <c.Icon className="h-5 w-5" />
+                  </span>
+                  <div>
+                    <div className="font-display font-extrabold text-lg sm:text-xl text-white">
+                      {c.name}
+                    </div>
+                    <div className="text-xs sm:text-sm text-white/70 mt-1">
+                      {c.desc}
+                    </div>
+                    <div className="mt-3 inline-flex items-center gap-1.5 text-xs font-bold text-brand-300 group-hover:text-brand-200">
+                      Explore range
+                      <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                    </div>
                   </div>
                 </div>
-              </div>
-            </Link>
+              </Link>
+            </StaggerItem>
           ))}
-        </div>
+        </Stagger>
       </div>
     </section>
   );

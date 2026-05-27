@@ -1,19 +1,10 @@
-import { categories } from "../data/site";
-
-const priceRanges = [
-  { label: "Under KES 1,000", min: 0, max: 1000 },
-  { label: "KES 1,000 – 5,000", min: 1000, max: 5000 },
-  { label: "KES 5,000 – 20,000", min: 5000, max: 20000 },
-  { label: "Above KES 20,000", min: 20000, max: Infinity },
-];
+import { categories, whatsappLink } from "../data/site";
 
 function SidebarFilters({
   search,
   onSearch,
   selectedCategory,
   onCategory,
-  selectedRange,
-  onRange,
   onReset,
 }) {
   return (
@@ -88,49 +79,18 @@ function SidebarFilters({
         </div>
       </div>
 
-      <div className="mt-6">
-        <label className="block text-xs uppercase tracking-wider text-slate-500 font-semibold mb-3">
-          Price Range
-        </label>
-        <div className="flex flex-col gap-2">
-          <label className="inline-flex items-center gap-2.5 cursor-pointer text-sm text-slate-700">
-            <input
-              type="radio"
-              name="price"
-              checked={!selectedRange}
-              onChange={() => onRange(null)}
-              className="h-4 w-4 accent-brand-500"
-            />
-            Any price
-          </label>
-          {priceRanges.map((r) => (
-            <label
-              key={r.label}
-              className="inline-flex items-center gap-2.5 cursor-pointer text-sm text-slate-700"
-            >
-              <input
-                type="radio"
-                name="price"
-                checked={selectedRange?.label === r.label}
-                onChange={() => onRange(r)}
-                className="h-4 w-4 accent-brand-500"
-              />
-              {r.label}
-            </label>
-          ))}
-        </div>
-      </div>
-
       <div className="mt-7 p-4 rounded-xl bg-slate-900 text-white">
-        <div className="font-display font-bold text-sm">Need bulk pricing?</div>
+        <div className="font-display font-bold text-sm">Need a quotation?</div>
         <p className="text-xs text-slate-300 mt-1">
-          Project quotations for orders above KES 100K.
+          Send your material list — we'll respond within 4 hours.
         </p>
         <a
-          href="/contact"
+          href={whatsappLink("Hello Thaana Hardware, I'd like a quotation.")}
+          target="_blank"
+          rel="noreferrer"
           className="mt-3 inline-flex w-full justify-center bg-brand-400 hover:bg-brand-300 text-slate-900 font-semibold text-xs py-2 rounded-lg transition"
         >
-          Talk to Sales
+          WhatsApp the Team
         </a>
       </div>
     </aside>

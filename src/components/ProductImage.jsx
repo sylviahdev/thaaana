@@ -1,36 +1,8 @@
 // Renders a clean, on-topic SVG illustration of the actual product.
-// No external images, no photos of people — every product gets a dedicated
-// illustration based on keywords in its name, falling back to a category glyph.
-//
-// If a product has an `image` field (e.g. "/images/products/simba-cement.jpg")
-// pointing to a real photo dropped into the public folder, that takes priority.
+// Every product gets a dedicated illustration based on keywords in its name,
+// falling back to a category glyph.
 
-import { useState } from "react";
-
-// Drop real product photos into /public/images/products/ with these exact
-// filenames and they'll automatically replace the SVG illustration.
-const photoOverrides = {
-  "simba cement 42.5n (50kg)":           "/images/products/simba-cement.jpg",
-  "savannah tembo 42.5n (50kg)":         "/images/products/savannah-cement.jpg",
-  "bamburi nguvu 32.5n cement (50kg)":   "/images/products/bamburi-cement.jpg",
-  "ballast 3/4\" (per tonne)":           "/images/products/ballast.jpg",
-  "river sand (per tonne)":              "/images/products/sand.jpg",
-  "hdpe pipe 1\" pn10 (50m roll)":       "/images/products/hdpe-coil.jpg",
-  "hdpe irrigation pipe 1\" (100m)":     "/images/products/hdpe-coil.jpg",
-  "mabati box profile 28g (3m)":         "/images/products/box-profile-blue.jpg",
-  "kentank plastic water tank 1000l":    "/images/products/kentank-1000l.jpg",
-  "kentank plastic water tank 5000l":    "/images/products/kentank-5000l.jpg",
-  "roto tank 5000l":                     "/images/products/roto-tank-5000l.jpg",
-  "roto tank 10000l":                    "/images/products/roto-tank-10000l.jpg",
-  "techno-tank 2300l":                   "/images/products/techno-tank.jpg",
-};
-
-// Optional banner images you can drop into public/images/banners/
-// — used by the category page header and homepage features.
-export const banners = {
-  "Water & Sanitation": "/images/banners/water-tanks-banner.jpg",   // Winstar trio
-  "tank-installation":  "/images/banners/tank-installation.jpg",     // Elevated tank
-};
+import { createElement } from "react";
 
 const palette = {
   "Cement & Concrete":     { bg1: "#F1F5F9", bg2: "#E2E8F0", tone: "#475569", accent: "#94A3B8" },
@@ -614,7 +586,7 @@ function WaterTank({ p, brand = "kentank" }) {
   );
 }
 
-function HDPECoil({ p }) {
+function HDPECoil() {
   // Stacked black coils of HDPE pipe with blue stripe.
   const coil = (cx, cy, scale = 1) => (
     <g transform={`translate(${cx}, ${cy}) scale(${scale})`}>
@@ -927,13 +899,16 @@ function detectBrand(name = "") {
   return null;
 }
 
+function Ballast(props) { return <Aggregate {...props} kind="ballast" />; }
+function Sand(props) { return <Aggregate {...props} kind="sand" />; }
+
 // Map a product to the right illustration based on keywords in its name.
 function pickIllustration(name = "", category = "") {
   const n = name.toLowerCase();
 
   // Aggregates
-  if (/(ballast|hardcore|gravel|aggregate|chips)/.test(n)) return (props) => <Aggregate {...props} kind="ballast" />;
-  if (/(sand)/.test(n)) return (props) => <Aggregate {...props} kind="sand" />;
+  if (/(ballast|hardcore|gravel|aggregate|chips)/.test(n)) return Ballast;
+  if (/(sand)/.test(n)) return Sand;
 
   // Cement & concrete
   if (/(cement|nguvu|portland|tembo|simba|bamburi|savannah|savana)/.test(n)) return CementBag;
@@ -1025,32 +1000,9 @@ function pickIllustration(name = "", category = "") {
 }
 
 function ProductImage({ product, className = "" }) {
-  const [failed, setFailed] = useState(false);
   const category = product?.category;
   const p = palette[category] || palette.default;
-
-  // Resolve photo override: explicit product.image first, then lookup by name.
-  const photo =
-    product?.image && !failed
-      ? product.image
-      : !failed
-        ? photoOverrides[(product?.name || "").toLowerCase()]
-        : null;
-
-  if (photo) {
-    return (
-      <img
-        src={photo}
-        alt={product?.name || "Product"}
-        loading="lazy"
-        onError={() => setFailed(true)}
-        className={`h-full w-full object-cover ${className}`}
-      />
-    );
-  }
-
   const brand = detectBrand(product?.name);
-  const Illustration = pickIllustration(product?.name, category);
 
   // Use a stable id based on category so gradients don't collide.
   const gradId = `pg-${(category || "default").replace(/[^a-z]/gi, "")}`;
@@ -1077,7 +1029,7 @@ function ProductImage({ product, className = "" }) {
       <rect width="400" height="300" fill={`url(#${gradId})`} />
       <rect width="400" height="300" fill={`url(#${patternId})`} />
 
-      <Illustration p={p} brand={brand} />
+      {createElement(pickIllustration(product?.name, category), { p, brand })}
 
       <line x1="20" y1="270" x2="380" y2="270" stroke={p.tone} strokeWidth="1" strokeDasharray="4 6" opacity="0.25" />
 
