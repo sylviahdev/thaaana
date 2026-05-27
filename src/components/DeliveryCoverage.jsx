@@ -29,7 +29,7 @@ function DeliveryCoverage() {
           <Reveal className="lg:col-span-5">
             <div className="eyebrow text-brand-600">Delivery Coverage</div>
             <h2 className="mt-3 heading-xl">
-              Materials delivered <span className="text-gradient-orange">across Kenya</span>,
+              Materials delivered <span className="text-gradient-orange">across Machakos and beyond</span>,
               on the day you booked.
             </h2>
             <p className="mt-5 text-slate-600 leading-relaxed">
