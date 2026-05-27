@@ -104,7 +104,7 @@ function Products() {
             </h1>
             <p className="mt-5 max-w-2xl text-slate-300 text-base sm:text-lg leading-relaxed">
               Browse our full catalogue of construction materials. Filter by
-              category and request a quotation in one click — we respond within
+              category and request a quotation in one click , we respond within
               4 working hours.
             </p>
             <div className="mt-7 flex flex-wrap items-center gap-x-6 gap-y-3 text-xs text-slate-400">

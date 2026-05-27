@@ -20,12 +20,12 @@ const values = [
   {
     Icon: ShieldCheck,
     title: "Integrity first",
-    body: "We sell exactly what's on the label — no rebagged cement, no understrength steel. Every bag, bar and bundle is traceable to a KEBS-certified manufacturer.",
+    body: "We sell exactly what's on the label ,no rebagged cement, no understrength steel. Every bag, bar and bundle is traceable to a KEBS-certified manufacturer.",
   },
   {
     Icon: Hammer,
     title: "Built for the trade",
-    body: "Quotations, logistics and payment terms designed around how contractors actually work — site delivery windows, M-Pesa Till, 30-day terms for vetted projects.",
+    body: "Quotations, logistics and payment terms designed around how contractors actually work , site delivery windows, M-Pesa Till, 30-day terms for vetted projects.",
   },
   {
     Icon: Handshake,
@@ -193,7 +193,7 @@ function About() {
                     Stock holding
                   </div>
                   <div className="mt-1.5 font-display font-extrabold text-charcoal-900 leading-snug">
-                    1,200+ SKUs across 14 categories — ready to dispatch.
+                    1,200+ SKUs across 14 categories ready to dispatch.
                   </div>
                 </div>
               </div>
@@ -215,8 +215,8 @@ function About() {
                   retailers across the country.
                 </p>
                 <p>
-                  What hasn't changed is the way we work. Every quotation — from
-                  a single bag of cement to a 40-foot container of mabati — is
+                  What hasn't changed is the way we work. Every quotation from
+                  a single bag of cement to a 40-foot container of mabati  is
                   treated the same: real stock, honest answers, and delivery
                   when promised.
                 </p>

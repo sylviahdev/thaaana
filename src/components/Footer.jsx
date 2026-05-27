@@ -177,7 +177,7 @@ function Footer() {
               Find Our Yard
             </div>
             <p className="mt-2 text-slate-400 text-sm leading-relaxed">
-              Walk-ins welcome — bring your BOQ for an on-the-spot quote.
+              Walk-ins welcome , bring your BOQ for an on-the-spot quote.
             </p>
             <a
               href="https://www.google.com/maps?q=Ekalakala,+Machakos,+Kenya"
